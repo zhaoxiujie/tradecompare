@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="/plugin/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/plugin/layuiadmin/style/admin.css" media="all">
+    <script src="/plugin/layuiadmin/layui/layui.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<div  class="layui-row" style="padding: 20px">
+    <div class="layui-col-md6 ">
+        <h1 style="color: #0C0C0C"><i class="layui-icon layui-icon-read" style="font-size: 30px"></i>  现有工具的说明</h1>
+    </div>
+</div>
+<div class="layui-elem-quote" style="background-color: lightgray; margin: 10px; padding: 20px">
+    <h3 style="color: #0C0C0C">订单XML比对</h3>
+    <br>
+    <h4>对比线上和组件化orderXML</h4>
+</div>
+<div class="layui-elem-quote" style="background-color: lightgray; margin: 10px; padding: 20px">
+    <h3 style="color: #0C0C0C">SENDPAY审查</h3>
+    <br>
+    <h4>查看sendpay编码对应位置的数值</h4>
+</div>
+<div class="layui-elem-quote" style="background-color: lightgray; margin: 10px; padding: 20px">
+    <h3 style="color: #0C0C0C">JIMDB操作工具</h3>
+    <br>
+    <h4>操作测试环境jimdb</h4>
+</div>
+
+<!-- 条目中可以是任意内容，如：<img src=""> -->
+<script>
+    layui.use('carousel', function () {
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1'
+            , width: '100%' //设置容器宽度
+            , arrow: 'always' //始终显示箭头
+            , height: '600px'
+            //,anim: 'updown' //切换动画方式
+        });
+    });
+</script>
+</body>
+</html>

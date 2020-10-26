@@ -1,0 +1,15 @@
+###### system######
+server:
+  port: 8881
+  servlet:
+    context-path: /
+
+
+#####  myConfig #####
+logging:
+  level:
+    org:
+      springframework: WARN
+      spring:
+        springboot:
+          dao: DEBUG

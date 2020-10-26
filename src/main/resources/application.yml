@@ -1,0 +1,72 @@
+##### spring #####
+spring:
+  profiles:
+    active: dev
+  thymeleaf:
+    cache: false
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: utf-8
+  output:
+    ansi:
+      enabled: always
+
+##### ignore #####
+properties:
+  ignore: TheExtTags/UserAgent
+          TheExtTags/Malice_TrackID
+          TheExtTags/Malice_OrderFrom
+          TheExtTags/unpl
+          /Order[1]/SendPay[1]/text()[1]
+          /Order[1]/ClientSystemName[1]
+          TheExtTags/__jdv
+          /Order[1]/UserOrderId[1]/text()[1]
+          /Order[1]/IdCompanyBranch[1]/text()[1]
+          TheExtTags/port
+          /Order[1]/UnionTime[1]
+          TheExtTags/risktak
+          TheExtTags/__jdb
+          TheExtTags/__jda
+          /Order[1]/CreateDate[1]/text()[1]
+          /Order[1]/OrderId[1]/text()[1]
+          /Order[1]/ClientIP[1]
+          TheExtTags/samSxSplit
+          TheExtTags/mt_xid
+          TheExtTags/mt_ext
+          TheExtTags/DisChannels
+          /Order[1]/ServerName[1]
+          TheExtTags/client
+          TheExtTags/mt_subsite
+          TheExtTags/sdkServerName
+          /Order[1]/ClientBrowserName[1]
+          /Order[1]/OrderGuid[1]/text()[1]
+          ^TheExtTags/UserAgent
+          ^TheExtTags/Malice_TrackID
+          ^TheExtTags/Malice_OrderFrom
+          ^TheExtTags/unpl
+          ^/Order[1]/SendPay[1]/text()[1]
+          ^/Order[1]/ClientSystemName[1]
+          ^TheExtTags/__jdv
+          ^/Order[1]/UserOrderId[1]/text()[1]
+          ^/Order[1]/IdCompanyBranch[1]/text()[1]
+          ^TheExtTags/port
+          ^/Order[1]/UnionTime[1]
+          ^TheExtTags/risktak
+          ^TheExtTags/__jdb
+          ^TheExtTags/__jda
+          ^/Order[1]/CreateDate[1]/text()[1]
+          ^/Order[1]/OrderId[1]/text()[1]
+          ^/Order[1]/ClientIP[1]
+          ^TheExtTags/samSxSplit
+          ^TheExtTags/mt_xid
+          ^TheExtTags/mt_ext
+          ^TheExtTags/DisChannels
+          ^/Order[1]/ServerName[1]
+          ^TheExtTags/client
+          ^TheExtTags/mt_subsite
+          ^TheExtTags/sdkServerName
+          ^/Order[1]/ClientBrowserName[1]
+          ^/Order[1]/OrderGuid[1]/text()[1]
+
+

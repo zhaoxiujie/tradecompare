@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+
+    <bean id="configService" class="com.jd.order.purchase.config.client.xmlext.service.impl.XmlConfigServiceImpl">
+        <constructor-arg index="0" value="tradeTestTools" />
+        <constructor-arg index="1" value="0a8eeee8e21e6daf8e933ec24ea09a08" />
+        <constructor-arg index="2" value="dbconfig.jd.local" />
+    </bean>
+
+</beans>

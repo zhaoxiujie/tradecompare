@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单比对</title>
+    <link rel="stylesheet" href="/plugin/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/plugin/layuiadmin/style/admin.css" media="all">
+    <script src="/plugin/layuiadmin/layui/layui.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <!-- Requires CodeMirror -->
+    <script type="text/javascript" src="/plugin/mergely/codemirror.min.js"></script>
+    <script type="text/javascript" src="/plugin/mergely/searchcursor.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/plugin/mergely/codemirror.min.css" media="all" />
+
+    <!-- Requires Mergely -->
+    <script type="text/javascript" src="/plugin/mergely/mergely.js"></script>
+    <link type="text/css" rel="stylesheet" href="/plugin/mergely/mergely.css"  media="all"/>
+</head>
+<body style="background-color: white">
+<div style="margin-top: 5px">
+    <form class="layui-form" action="" style="margin-left: 40px">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: auto">线上的订单号</label>
+            <div class="layui-input-inline" style="width: 300px">
+                <input value="104381948130" type="text" name="online" required  lay-verify="required" placeholder="请输入单号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: auto">组件化订单号</label>
+            <div class="layui-input-inline"  style="width: 300px">
+                <input value="104385462568" type="text" name="compare" required lay-verify="required" placeholder="请输入单号" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即比较</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button class="layui-btn" type="button" id="compare_order">比较Order文本</button>
+                <button class="layui-btn" type="button" id="compare_cart">比较Cart文本</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div lay-filter="table_result" class="layui-tab layui-tab-card" style="width: 98%;margin: 0 auto;">
+    <ul class="layui-tab-title">
+        <li class="layui-this" lay-id="main_result">OrderXML对比结果</li>
+        <li lay-id="cart_result">CartXML对比结果</li>
+        <li>OrderXML详细结果</li>
+        <li>CartXML详细结果</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div id="order_main" class="layui-tab-item layui-show"></div>
+        <div id="cart_main" class="layui-tab-item">
+        </div>
+        <div class="layui-tab-item">
+            <div style="width: 99%">
+                <div id="order_mergely"></div>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div style="width: 99%">
+                <div id="cart_mergely"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var online_order, compare_order, online_cart, compare_cart;
+    layui.use(['form','element'], function(){
+        var form = layui.form;
+        var element = layui.element;
+        element.on('tab', function(data){
+            if (data.index == 2){
+                updateOrder();
+            }else if (data.index == 3){
+                updateCart();
+            }
+        });
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            $.ajax({
+                url:"/home/getAndCompare",
+                type:"POST",
+                async:false,
+                data:JSON.stringify(data.field),
+                contentType: "application/json",
+                dataType: "text",
+                success: function(data){
+                    var data_json = JSON.parse(data);
+                    $("#order_main").html(data_json["resultOrder"]);
+                    $("#cart_main").html(data_json["resultCart"]);
+                    // orderXML详情
+                    online_order = data_json["online_order"];
+                    compare_order = data_json["compare_order"];
+                    //cartXML详情
+                    online_cart = data_json["online_cart"];
+                    compare_cart = data_json["compare_cart"];
+                    element.tabChange("table_result", "main_result");
+                }
+            });
+            return false;
+        });
+
+        $("#compare_order").click(function(){
+            var order = $("#order_mergely");
+            online_order = order.mergely('get', 'lhs');
+            compare_order = order.mergely('get', 'rhs');
+            var jsonText = {};
+            jsonText["online"] = online_order;
+            jsonText["compare"] = compare_order;
+            $.ajax({
+                url:"/home/compareOrder",
+                type:"POST",
+                async:false,
+                data:JSON.stringify(jsonText),
+                contentType: "application/json",
+                dataType: "text",
+                success: function(data){
+                    $("#order_main").html(data);
+                    element.tabChange("table_result", "main_result");
+                }
+            });
+        });
+
+        $("#compare_cart").click(function(){
+            var cart = $("#cart_mergely");
+            online_cart = cart.mergely('get', 'lhs');
+            compare_cart = cart.mergely('get', 'rhs');
+            var jsonText = {};
+            jsonText["onlineCart"] = online_cart;
+            jsonText["compareCart"] = compare_cart;
+            $.ajax({
+                url:"/home/compareCart",
+                type:"POST",
+                async:false,
+                data:JSON.stringify(jsonText),
+                contentType: "application/json",
+                dataType: "text",
+                success: function(data){
+                    $("#cart_main").html(data);
+                    element.tabChange("table_result", "cart_result");
+                }
+            });
+        });
+    });
+
+    function updateCart() {
+        var cart = $("#cart_mergely");
+        cart.mergely({
+            height:600
+        });
+        cart.mergely('lhs', online_cart);
+        cart.mergely('rhs', compare_cart);
+        cart.mergely('update');
+    }
+    function updateOrder() {
+        var order = $("#order_mergely");
+        order.mergely({
+            height:600
+        });
+        order.mergely('lhs', online_order);
+        order.mergely('rhs', compare_order);
+        order.mergely('update');
+    }
+
+</script>
+</body>
+</html>
